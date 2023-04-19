@@ -34,7 +34,7 @@ function App(): JSX.Element {
   return <>
     <div className='w-screen h-screen relative'>
       {!user ? <>
-        <div className='w-[25rem] h-[14rem] border-2 rounded-md absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col'>
+        <div className='w-[25rem] h-[14rem] border-2 rounded-md center flex flex-col'>
           <div className='w-full h-1/2 flex flex-col justify-center items-center gap-2'>
             <h2 className='text-3xl font-semibold'>Login</h2>
             <span>Login using your token</span>
@@ -45,14 +45,14 @@ function App(): JSX.Element {
           </div>
         </div>
       </> : <>
-        <div className='w-5/6 h-5/6 border-2 border-black rounded-md absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex flex-col justify-center items-center'>
+        <div className='w-5/6 h-5/6 border-2 border-black rounded-md center flex flex-col justify-center items-center'>
           <div className='w-[95%] h-1/2 border-b-2 border-b-black'>
             <div className='w-1/3 h-full flex flex-col'>
               {/** input for teamName contactEmail location */}
               <h1>Manage your team</h1>
-              <input type="text" />
-              <input type="text" />
-              <input type="text" />
+              <input type="text" className='' onChange={(e) => setTeamInput(prev => ({...prev, name: e.target.value}))}/>
+              <input type="text" onChange={(e) => setTeamInput(prev => ({...prev, contactEmail: e.target.value}))}/>
+              <input type="text" onChange={(e) => setTeamInput(prev => ({...prev, location: e.target.value}))}/>
             </div>
           </div>
           <div className='w-[95%] h-1/2'>

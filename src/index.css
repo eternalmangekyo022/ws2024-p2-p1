@@ -1,3 +1,9 @@
 @tailwind components;
 @tailwind utilities;
 @tailwind base;
+
+@layer components {
+	.center {
+		@apply absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2
+	}
+}
