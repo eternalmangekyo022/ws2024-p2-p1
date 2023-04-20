@@ -1,11 +1,12 @@
 declare global {
+	type Speed = `${number}${number}:${number}${number}`
 	type User = {
 		id: number
 		firstName: string
 		lastName: string
 		token: number
 		isAdmin: boolean
-		speed: string
+		speed: Speed
 		teamId: number
 	}
 

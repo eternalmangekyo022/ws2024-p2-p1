@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import Runner from './components/Runner'
 
 const saveToLs: boolean = true
@@ -9,6 +9,7 @@ function App(): JSX.Element {
   const [runners, setRunners] = useState<User[]>([]);
   const [token, setToken] = useState<string>('');
   const [changed, setChanged] = useState<boolean>(false);
+  const [inputs, setInputs] = useState<Pick<User, 'firstName' | 'lastName' | 'speed'>>({ firstName: '', lastName: '', speed: '00:00' });
 
   const actions = {
     login: async(token: string): Promise<void> => {
@@ -61,6 +62,19 @@ function App(): JSX.Element {
       console.log(res)
       setUser(null)
     },
+
+    addRunners: async() => {
+      const res = await (await fetch('http://localhost/teams/' + team!.id + '/runners', {
+        method: 'POST',
+        headers: new Headers({
+          'Content-Type': 'application/json',
+          Authorization: user!.token.toString()
+        }),
+        body: JSON.stringify({
+          firstName: ''
+        })
+      })).json()
+    }
   }
 
   useEffect(() => {
@@ -130,7 +144,25 @@ function App(): JSX.Element {
                 }} user={user} firstName={firstName} id={id} speed={speed} lastName={lastName} team={team as Team} token={token} key={id.toString()}></Runner>
               </>)}
               {runners.length < 10 && <>
-                <div className='flex justify-evenly items-center h-[10%]'></div>
+                <div className='flex justify-evenly items-center h-[10%]'>
+                  <input type="text" placeholder='First Name' className='w-[22.5%] text-center' value={inputs.firstName} onChange={(e) => {
+                    setInputs(prev => ({ ...prev, firstName: e.target.value }))
+                  }}/>
+                  <input type="text" placeholder='Last Name' className='w-[22.5%] text-center' value={inputs.lastName} onChange={(e) => {
+                    setInputs(prev => ({ ...prev, lastName: e.target.value }))
+                  }}/>
+                  <input type="text" maxLength={5} placeholder='Speed' className='w-[22.5%] text-center' value={inputs.speed} onChange={(e) => {
+                    const reg = /^[0-9]{1,2}:[0-9]{1,2}$/
+                    if(reg.test(e.target.value)) {
+                      setInputs(prev => ({ ...prev, speed: e.target.value as Speed }))
+
+                    }
+                  }}/>
+                  <input type="text" placeholder='Token' className='w-[22.5%] text-center' disabled />
+                  <button type='button' className='font-semibold text-3xl flex justify-center w-[10%]'
+                    onClick={() => {}}
+                  >+</button>
+                </div>
               </>}
             </div>
           </div>
