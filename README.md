@@ -1,4 +1,3 @@
-## for preview, take a look at
 ![preview.png](https://raw.githubusercontent.com/eternalmangekyo022/ws2024-p2-p1/main/preview.png)
 
 ## actions explanation:
