@@ -1,1 +1,1 @@
-## for preview, take a look at [preview.png]
+## for preview, take a look at [https://github.com/eternalmangekyo022/ws2024-p2-p1/tree/main]
