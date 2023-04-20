@@ -63,17 +63,22 @@ function App(): JSX.Element {
       setUser(null)
     },
 
-    addRunners: async() => {
-      const res = await (await fetch('http://localhost/teams/' + team!.id + '/runners', {
-        method: 'POST',
-        headers: new Headers({
-          'Content-Type': 'application/json',
-          Authorization: user!.token.toString()
-        }),
-        body: JSON.stringify({
-          firstName: ''
-        })
-      })).json()
+    addRunner: async() => {
+      if(/^[0-9]{0,2}:[0-9]{0,2}$/.test(inputs.speed) && inputs.firstName.trim() && inputs.lastName.trim()) {
+        const res: Awaited<Promise<User>> = await (await fetch('http://localhost/teams/' + team!.id + '/runners', {
+          method: 'POST',
+          headers: new Headers({
+            'Content-Type': 'application/json',
+            Authorization: user!.token.toString()
+          }),
+          body: JSON.stringify({
+            firstName: inputs.firstName,
+            lastName: inputs.lastName,
+            speed: inputs.speed
+          })
+        })).json()
+        if(res.id) setRunners(prev => [...prev, res])
+      }
     }
   }
 
@@ -152,16 +157,13 @@ function App(): JSX.Element {
                     setInputs(prev => ({ ...prev, lastName: e.target.value }))
                   }}/>
                   <input type="text" maxLength={5} placeholder='Speed' className='w-[22.5%] text-center' value={inputs.speed} onChange={(e) => {
-                    const reg = /^[0-9]{1,2}:[0-9]{1,2}$/
+                    const reg = /^[0-9]{0,2}:[0-9]{0,2}$/
                     if(reg.test(e.target.value)) {
                       setInputs(prev => ({ ...prev, speed: e.target.value as Speed }))
-
                     }
                   }}/>
                   <input type="text" placeholder='Token' className='w-[22.5%] text-center' disabled />
-                  <button type='button' className='font-semibold text-3xl flex justify-center w-[10%]'
-                    onClick={() => {}}
-                  >+</button>
+                  <button type='button' className='font-semibold text-3xl flex justify-center w-[10%]' onClick={actions.addRunner}>+</button>
                 </div>
               </>}
             </div>
